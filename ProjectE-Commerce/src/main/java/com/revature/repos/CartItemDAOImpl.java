@@ -74,20 +74,21 @@ public class CartItemDAOImpl implements CartItemDAO {
     }
 
     @Override
-    public CartItem removeCartProduct(User user, CartItem item) {
+    public boolean removeCartProduct(User user, Product product) {
         try (Connection conn = ConnectionUtil.getConnection()){
 
-            String sql = "DELETE FROM cartitems WHERE user_id = ? AND cart_item_id = ?;";
+            String sql = "DELETE FROM cartitems WHERE user_id = ? AND product_id = ?;";
 
             PreparedStatement ps = conn.prepareStatement(sql);
 
-            int id = item.getCartItemId();
+            int id = product.getProductId();
             int rows = ps.executeUpdate();
 
             if (rows > 0){
                 System.out.println("Deleted Item number: "+ id);
+                return true;
             } else{
-                return null;
+                return false;
             }
 
 
@@ -96,23 +97,31 @@ public class CartItemDAOImpl implements CartItemDAO {
             e.printStackTrace();
         }
 
-        return null;
+        return false;
     }
 
     @Override
-    public CartItem updateCartProduct(User user, CartItem item) {
+    public CartItem updateCartProduct(User user, Product product, int quantity) {
         try (Connection conn = ConnectionUtil.getConnection()){
 
-            String sql = "UPDATE cartitems SET quantity = ? WHERE cart_item_id = ? AND user_id = ?;";
+            String sql = "UPDATE cartitems SET quantity = ? WHERE product_id = ? AND user_id = ?;";
 
             PreparedStatement ps = conn.prepareStatement(sql);
 
-            ps.setInt(1,item.getCartItemId());
-            ps.setInt(2,user.getUserid());
+            ps.setInt(1, quantity);
+            ps.setInt(2,product.getProductId());
+            ps.setInt(3,user.getUserid());
 
-            int rows = ps.executeUpdate();
+            ResultSet rs = ps.executeQuery();
 
-            if (rows > 0){
+            if (rs.next()){
+                CartItem item = new CartItem(
+                        rs.getInt("cart_item_id"),
+                        rs.getInt("user_id"),
+                        rs.getInt("product_id"),
+                        rs.getInt("quantity")
+                );
+
                 return item;
             }else return null;
 

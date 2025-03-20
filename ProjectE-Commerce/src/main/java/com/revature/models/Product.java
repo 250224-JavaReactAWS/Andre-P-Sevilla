@@ -7,17 +7,22 @@ public class Product {
     private float price;
     private int stock;
 
-    private int counter = 1;
-
-    public Product(String name, String description, int price, int stock) {
-        this.productId = counter;
-        counter++;
+    public Product(int productId, String name, String description, float price, int stock) {
+        this.productId = productId;
         this.name = name;
         this.description = description;
         this.price = price;
         this.stock = stock;
     }
+
     public Product (){}
+
+    public Product(String name, String description, float price, int stock) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.stock = stock;
+    }
 
     public void setProductId(int productId) {
         this.productId = productId;
@@ -39,7 +44,7 @@ public class Product {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(float price) {
         this.price = price;
     }
 

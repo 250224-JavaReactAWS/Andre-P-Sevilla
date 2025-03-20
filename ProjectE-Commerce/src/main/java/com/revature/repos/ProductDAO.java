@@ -16,11 +16,11 @@ public interface ProductDAO {
 
     List<Product> getAllProducts();
 
-    Product updateProductDetail(Product product);
+    Product getProductByName(String name);
 
     Product createProduct(Product product);
 
     Product updateProduct(Product product);
 
-    Product deleteProduct(Product product);
+    boolean deleteProductByName(String name);
 }

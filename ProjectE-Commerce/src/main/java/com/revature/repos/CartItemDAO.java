@@ -21,9 +21,9 @@ public interface CartItemDAO {
 
     CartItem addCartProduct(User user, Product product, int quantity);
 
-    CartItem removeCartProduct(User user, CartItem item);
+    boolean removeCartProduct(User user, Product product);
 
-    CartItem updateCartProduct(User user, CartItem item);
+    CartItem updateCartProduct(User user, Product product, int quantity);
 
     boolean deleteCart(User user);
 }

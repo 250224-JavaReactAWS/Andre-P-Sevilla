@@ -3,6 +3,7 @@ package com.revature.repos;
 import com.revature.models.Product;
 import com.revature.util.ConnectionUtil;
 
+import javax.sound.sampled.Port;
 import javax.xml.transform.Result;
 import java.sql.*;
 import java.util.ArrayList;
@@ -41,30 +42,6 @@ public class ProductDAOImpl implements ProductDAO {
 }
 
     @Override
-    public Product updateProductDetail(Product product) {
-        try (Connection conn = ConnectionUtil.getConnection()){
-
-            String sql = "UPDATE products SET description = ? WHERE product_id = ?;";
-
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, product.getDescription());
-            ps.setInt(2, product.getProductId());
-
-            int rows = ps.executeUpdate();
-
-            if (rows > 0){
-                return product;
-            }else return null;
-
-
-        } catch (SQLException e) {
-            System.out.println("Unable to update product description.");
-        }
-
-        return null;
-    }
-
-    @Override
     public Product createProduct(Product product) {
             try (Connection conn = ConnectionUtil.getConnection()){
                 String sql = "INSERT INTO PRODUCTS (name, description, price, stock) VALUES"+ "(?,?,?,?) RETURNING *;";
@@ -99,6 +76,40 @@ public class ProductDAOImpl implements ProductDAO {
     }
 
     @Override
+    public Product getProductByName(String name){
+        try(Connection conn = ConnectionUtil.getConnection()){
+
+            String sql = "SELECT * FROM products WHERE name = ?;";
+
+            PreparedStatement ps = conn.prepareStatement(sql);
+
+            ps.setString(1, name);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()){
+                Product p = new Product();
+
+                p.setProductId(rs.getInt("product_id"));
+                p.setName(rs.getString("name"));
+                p.setDescription(rs.getString("description"));
+                p.setPrice(rs.getFloat("price"));
+                p.setStock(rs.getInt("stock"));
+
+                return p;
+            }
+
+
+        } catch (SQLException e) {
+            System.out.println("Could found Product in database.");
+            e.printStackTrace();
+        }
+
+
+        return null;
+    }
+
+    @Override
     public Product updateProduct(Product product) {
         try (Connection conn = ConnectionUtil.getConnection()){
 
@@ -124,31 +135,28 @@ public class ProductDAOImpl implements ProductDAO {
     }
 
     @Override
-    public Product deleteProduct(Product product) {
+    public boolean deleteProductByName(String name) {
         try(Connection conn = ConnectionUtil.getConnection()){
 
-            String sql = "DELETE FROM products WHERE product_id = ?;";
+            String sql = "DELETE FROM products WHERE name = ?;";
 
             PreparedStatement ps = conn.prepareStatement(sql);
 
-            ps.setInt(1, product.getProductId());
+            ps.setString(1, name);
 
-            String name = product.getName();
-            int id = product.getProductId();
             int rows = ps.executeUpdate();
 
             if (rows > 0){
-                System.out.println("Deleted product: " + name + "with id:" + id);
+                System.out.println("Deleted product: " + name);
+                return true;
             } else{
-                return null;
+                System.out.println("No product with that name.");
+                return false;
             }
 
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
-
-        return null;
     }
 }

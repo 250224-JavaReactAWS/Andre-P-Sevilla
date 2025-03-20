@@ -1,5 +1,7 @@
 package com.revature.repos;
 
+import com.revature.models.CartItem;
+import com.revature.models.Order;
 import com.revature.models.OrderItem;
 
 public interface OrderItemDAO {
@@ -8,7 +10,7 @@ public interface OrderItemDAO {
     * Delete OrderItemDAO
     * */
 
-    OrderItem createOrderItem();
+    OrderItem createOrderItem(CartItem item, Order order);
 
     boolean deleteOrderItem();
 }
