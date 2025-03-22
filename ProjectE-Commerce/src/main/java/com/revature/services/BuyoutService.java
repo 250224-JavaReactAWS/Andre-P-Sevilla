@@ -70,12 +70,9 @@ public class BuyoutService {
 
     // ----------------- Order Service ------------------
 
-    public Order updateOrderStatus(int orderId, Status status){
-        Order rOrder = new Order();
-        rOrder.setOrderId(orderId);
-        rOrder.setStatus(status);
+    public Order updateOrderStatus(Order order){
 
-        return orderDAO.updateStatus(rOrder);
+        return orderDAO.updateStatus(order);
     }
 
     public List<Order> viewAllOrders(){

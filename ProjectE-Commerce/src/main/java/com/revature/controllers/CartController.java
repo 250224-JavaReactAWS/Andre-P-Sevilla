@@ -1,7 +1,7 @@
 package com.revature.controllers;
 
 import com.revature.dtos.response.ErrorMessage;
-import com.revature.models.Product;
+import com.revature.models.*;
 import com.revature.services.BuyoutService;
 import io.javalin.http.Context;
 
@@ -73,18 +73,53 @@ public class CartController {
 
     public void PlaceOrder(Context ctx){
 
+        if (ctx.sessionAttribute("userid") == null){
+            ctx.status(401);
+            ctx.json(new ErrorMessage("Please login in to continue."));
+            return;
+        }
+
+        ctx.status(200);
+        buyoutService.buyoutCart(ctx.sessionAttribute("userid"));
+        ctx.json("Thank you for buying with us.");
     }
 
     public void getOrders(Context ctx){
 
+        if (ctx.sessionAttribute("role") != Role.ADMIN){
+            ctx.status(403);
+            ctx.json(new ErrorMessage("You are not allowed to this page."));
+            return;
+        }
+
+        ctx.status(200);
+        ctx.json(buyoutService.viewAllOrders());
     }
 
     public void updateOrder(Context ctx){
+
+        if (ctx.sessionAttribute("role") != Role.ADMIN){
+            ctx.status(403);
+            ctx.json(new ErrorMessage("You are not allowed to this page."));
+            return;
+        }
+
+        Order order = ctx.bodyAsClass(Order.class);
+
+        ctx.status(200);
+        ctx.json(buyoutService.updateOrderStatus(order));
 
     }
 
     public void getStatusOrders(Context ctx){
 
+        if (ctx.sessionAttribute("role") != Role.ADMIN){
+            ctx.status(403);
+            ctx.json(new ErrorMessage("You are not allowed to this page."));
+            return;
+        }
+        ctx.status(200);
+        ctx.json(buyoutService.viewOrdersByStatus(Status.valueOf(ctx.pathParam("status"))));
     }
     /*
     post("/add-product");
