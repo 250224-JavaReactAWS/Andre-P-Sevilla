@@ -12,14 +12,14 @@ import java.util.List;
 
 public class OrderDAOImpl implements OrderDAO {
     @Override
-    public Order createOrder(User user, float totalprice) {
+    public Order createOrder(int userId, float totalprice) {
         try (Connection conn = ConnectionUtil.getConnection()){
 
             String sql = "INSERT INTO orders (user_id, total_price) VALUES"+ "(?,?) RETURNING *;";
 
             PreparedStatement ps = conn.prepareStatement(sql);
 
-            ps.setInt(1, user.getUserid());
+            ps.setInt(1, userId);
             ps.setFloat(2, totalprice);
 
             ResultSet rs = ps.executeQuery();

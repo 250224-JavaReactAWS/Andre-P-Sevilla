@@ -21,31 +21,31 @@ public class BuyoutService {
     }
 
     //-------------------- Cart Item Service -----------------
-    public CartItem addCartItem(User user, Product product, int quantity){
-        return cartitemDAO.addCartProduct(user, product, quantity);
+    public CartItem addCartItem(int userId, int productId, int quantity){
+        return cartitemDAO.addCartProduct(userId, productId, quantity);
         /*
         * TODO Check if this is correct or if it needs to be with UserDAO and ProductDAO with the get by function
         */
     }
 
-    public boolean removeCartItem(User user, Product product){
-        return cartitemDAO.removeCartProduct(user, product);
+    public boolean removeCartItem(int userId, int productId){
+        return cartitemDAO.removeCartProduct(userId, productId);
     }
 
-    public CartItem updateCartItem(User user, Product product, int quantity){
-        return cartitemDAO.updateCartProduct(user, product, quantity);
+    public CartItem updateCartItem(int userId, int productId, int quantity){
+        return cartitemDAO.updateCartProduct(userId, productId, quantity);
     }
 
-    public boolean cleanCart(User user){
-        return cartitemDAO.deleteCart(user);
+    public boolean cleanCart(int userId){
+        return cartitemDAO.deleteCart(userId);
     }
 
-    public List<CartItem> getAllItems(User user){
-        return cartitemDAO.getAllItems(user);
+    public List<CartItem> getAllItems(int userId){
+        return cartitemDAO.getAllItems(userId);
     }
 
-    public void buyoutCart(User user){
-        List<CartItem> listItems = cartitemDAO.getAllItems(user);
+    public void buyoutCart(int userId){
+        List<CartItem> listItems = cartitemDAO.getAllItems(userId);
         float totalprice = 0;
 
         //First we get the total price directly from the CartItems, we run the ProductDAO to get the product price and multiply by the quantity in the cart
@@ -54,7 +54,7 @@ public class BuyoutService {
             totalprice += p.getPrice() * x.getQuantity();
         }
         //Once we have the total, creation of the Order
-        Order order = orderDAO.createOrder(user, totalprice);
+        Order order = orderDAO.createOrder(userId, totalprice);
 
         //With the Order id, we pass all the items from the cart to the orderItems table.
         for (CartItem x: listItems){
@@ -64,7 +64,7 @@ public class BuyoutService {
         }
 
         //We need to clear the cart as the process has ended
-        cleanCart(user);
+        cleanCart(userId);
         System.out.println("Thank you for buying with us.");
     }
 

@@ -20,7 +20,6 @@ public class ConnectionUtil {
         //if no connection create one, if there is a connection return that connection.
         try {
             if (conn != null && !conn.isClosed()){
-                System.out.println("Connection already established");
                 return conn;
             }
         } catch (SQLException e) {
@@ -44,7 +43,7 @@ public class ConnectionUtil {
             password = props.getProperty("password");
 
             conn = DriverManager.getConnection(url, username, password);
-            System.out.println("Connection established");
+            System.out.println("Connection established to database");
 
         } catch (IOException | SQLException e) {
             e.printStackTrace();

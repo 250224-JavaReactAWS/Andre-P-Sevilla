@@ -48,13 +48,13 @@ public class JavalinUtil {
                     post("/delete-product", productController::deleteProductHandler);
                 });
                 path("/cart", () -> {
-                    post("/add-product");
-                    post("/remove-product");
-                    post("/update-product");
-                    post("/place-order");
-                    get("/orders");
-                    post("/update-order");
-                    get("/{status}-orders");
+                    post("/add-product+{productId}+{quantity}", cartController::addItemToCart);
+                    post("/remove-product+{productId}", cartController::removeItemFromCart);
+                    post("/update-product+{productId}+{quantity}", cartController::updateItemFromCart);
+                    post("/place-order", cartController::PlaceOrder);
+                    get("/orders", cartController::getOrders);
+                    post("/update-order", cartController::updateOrder);
+                    get("/{status}-orders", cartController::getStatusOrders);
                 });
             });
                 })

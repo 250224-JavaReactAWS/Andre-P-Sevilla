@@ -19,14 +19,14 @@ public interface CartItemDAO {
 
     //List<CartItem> getAllItems(User user); TODO check with Bryan about this
 
-    CartItem addCartProduct(User user, Product product, int quantity);
+    CartItem addCartProduct(int userId, int productId, int quantity);
 
-    boolean removeCartProduct(User user, Product product);
+    boolean removeCartProduct(int userId, int productId);
 
-    CartItem updateCartProduct(User user, Product product, int quantity);
+    CartItem updateCartProduct(int userId, int productId, int quantity);
 
-    boolean deleteCart(User user);
+    boolean deleteCart(int userId);
 
-    List<CartItem> getAllItems(User user);
+    List<CartItem> getAllItems(int userId);
 }
 

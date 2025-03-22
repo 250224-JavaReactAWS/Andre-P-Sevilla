@@ -1,5 +1,7 @@
 package com.revature.controllers;
 
+import com.revature.dtos.response.ErrorMessage;
+import com.revature.models.Product;
 import com.revature.services.BuyoutService;
 import io.javalin.http.Context;
 
@@ -11,15 +13,44 @@ public class CartController {
         this.buyoutService = buyoutService;
     }
 
+
     public void addItemToCart(Context ctx){
+
+        if (ctx.sessionAttribute("userid") == null){
+            ctx.status(401);
+            ctx.json(new ErrorMessage("Please login in to continue adding items to your cart."));
+            return;
+        }
+
+        //Todo check if the item is already in the cart, if it is, just update the quantity of the item
+        ctx.status(200);
+        ctx.json(buyoutService.addCartItem(ctx.sessionAttribute("userid"), Integer.parseInt(ctx.pathParam("productId")), Integer.parseInt(ctx.pathParam("quantity"))));
 
     }
 
     public void removeItemFromCart(Context ctx){
 
+        if (ctx.sessionAttribute("userid") == null){
+            ctx.status(401);
+            ctx.json(new ErrorMessage("Please login in to delete items from your cart."));
+            return;
+        }
+
+        ctx.status(200);
+        ctx.json(buyoutService.removeCartItem(ctx.sessionAttribute("userid"), Integer.parseInt(ctx.pathParam("productId"))));
+
     }
 
     public void updateItemFromCart(Context ctx){
+
+        if (ctx.sessionAttribute("userid") == null){
+            ctx.status(401);
+            ctx.json(new ErrorMessage("Please login in to continue updating items from your cart."));
+            return;
+        }
+
+        ctx.status(200);
+        ctx.json(buyoutService.updateCartItem(ctx.sessionAttribute("userid"), Integer.parseInt(ctx.pathParam("productId")), Integer.parseInt(ctx.pathParam("quantity"))));
 
     }
 

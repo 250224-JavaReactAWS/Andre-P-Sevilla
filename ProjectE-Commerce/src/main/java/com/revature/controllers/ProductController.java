@@ -1,5 +1,6 @@
 package com.revature.controllers;
 
+import com.revature.dtos.response.ErrorMessage;
 import com.revature.models.Product;
 import com.revature.models.Role;
 import com.revature.services.ProductService;
@@ -28,7 +29,7 @@ public class ProductController {
 
         if (Role.ADMIN != ctx.sessionAttribute("role")){
             ctx.status(403);
-            ctx.json("You are not allowed to add a product.");
+            ctx.json(new ErrorMessage("You are not allowed to add a product."));
             return;
         }
 
@@ -41,7 +42,7 @@ public class ProductController {
 
         if (Role.ADMIN != ctx.sessionAttribute("role")){
             ctx.status(403);
-            ctx.json("You are not allowed to update this product.");
+            ctx.json(new ErrorMessage("You are not allowed to update this product."));
             return;
         }
 

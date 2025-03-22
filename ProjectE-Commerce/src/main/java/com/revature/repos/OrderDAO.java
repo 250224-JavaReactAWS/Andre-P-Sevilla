@@ -17,7 +17,7 @@ public interface OrderDAO {
     *
     * */
 
-    Order createOrder(User user, float totalprice);
+    Order createOrder(int userId, float totalprice);
 
     Order updateStatus(Order order);
 
