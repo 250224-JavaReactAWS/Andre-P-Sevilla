@@ -13,6 +13,23 @@ public class CartController {
         this.buyoutService = buyoutService;
     }
 
+    public void getAllItems(Context ctx){
+
+        if (ctx.sessionAttribute("userid") == null){
+            ctx.status(401);
+            ctx.json(new ErrorMessage("Please login in to be able to see your cart."));
+            return;
+        }
+
+        if (buyoutService.getAllItems(ctx.sessionAttribute("userid")).isEmpty()){
+            ctx.status(200);
+            ctx.json("Seems like your cart is empty, try adding some items.");
+            return;
+        }
+
+        ctx.status(200);
+        ctx.json(buyoutService.getAllItems(ctx.sessionAttribute("userid")));
+    }
 
     public void addItemToCart(Context ctx){
 

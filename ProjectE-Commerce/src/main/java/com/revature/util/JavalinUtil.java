@@ -48,6 +48,7 @@ public class JavalinUtil {
                     post("/delete-product", productController::deleteProductHandler);
                 });
                 path("/cart", () -> {
+                    get(cartController::getAllItems);
                     post("/add-product+{productId}+{quantity}", cartController::addItemToCart);
                     post("/remove-product+{productId}", cartController::removeItemFromCart);
                     post("/update-product+{productId}+{quantity}", cartController::updateItemFromCart);

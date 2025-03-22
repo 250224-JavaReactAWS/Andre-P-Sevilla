@@ -165,7 +165,7 @@ public List<CartItem> getAllItems(int userId) {
 
         ResultSet rs = ps.executeQuery();
 
-        if (rs.next()){
+        while (rs.next()){
             CartItem item = new CartItem();
             item.setCartItemId(rs.getInt("cart_item_id"));
             item.setProductId(rs.getInt("product_id"));
