@@ -26,5 +26,7 @@ public interface CartItemDAO {
     CartItem updateCartProduct(User user, Product product, int quantity);
 
     boolean deleteCart(User user);
+
+    List<CartItem> getAllItems(User user);
 }
 

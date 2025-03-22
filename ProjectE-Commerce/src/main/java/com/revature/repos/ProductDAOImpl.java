@@ -18,7 +18,7 @@ public class ProductDAOImpl implements ProductDAO {
 
             String sql = "SELECT * from products";
 
-            PreparedStatement ps = conn.prepareStatement(sql);
+            Statement ps = conn.createStatement();
 
             ResultSet rs = ps.executeQuery(sql);
 
@@ -27,7 +27,7 @@ public class ProductDAOImpl implements ProductDAO {
                 p.setProductId(rs.getInt("product_id"));
                 p.setName(rs.getString("name"));
                 p.setDescription(rs.getString("description"));
-                p.setPrice(rs.getInt("price"));
+                p.setPrice(rs.getFloat("price"));
                 p.setStock(rs.getInt("stock"));
 
                 allProducts.add(p);
@@ -60,7 +60,7 @@ public class ProductDAOImpl implements ProductDAO {
                     p.setProductId(rs.getInt("product_id"));
                     p.setName(rs.getString("name"));
                     p.setDescription(rs.getString("description"));
-                    p.setPrice(rs.getInt("price"));
+                    p.setPrice(rs.getFloat("price"));
                     p.setStock(rs.getInt("stock"));
 
                     return p;
@@ -110,17 +110,49 @@ public class ProductDAOImpl implements ProductDAO {
     }
 
     @Override
+    public Product getProductByID(int id) {
+        try (Connection conn = ConnectionUtil.getConnection()){
+
+            String sql = "SELECT * FROM products WHERE product_id = ?;";
+
+            PreparedStatement ps = conn.prepareStatement(sql);
+
+            ps.setInt(1, id);
+
+            ResultSet rs = ps.executeQuery();
+
+            if(rs.next()){
+                Product p = new Product();
+                p.setProductId(rs.getInt("product_id"));
+                p.setName(rs.getString("name"));
+                p.setDescription(rs.getString("description"));
+                p.setPrice(rs.getFloat("price"));
+                p.setStock(rs.getInt("stock"));
+
+                return p;
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Could not get product by id");
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    @Override
     public Product updateProduct(Product product) {
         try (Connection conn = ConnectionUtil.getConnection()){
 
            String sql = "UPDATE products SET name = ?, description = ?, price = ?, stock = ? WHERE product_id = ?;";
 
-           PreparedStatement ps = conn.prepareStatement(sql);
+            PreparedStatement ps = conn.prepareStatement(sql);
 
            ps.setString(1,product.getName());
            ps.setString(2,product.getDescription());
            ps.setFloat(3, product.getPrice());
            ps.setInt(4,product.getStock());
+           ps.setInt(5, product.getProductId());
 
            int rows = ps.executeUpdate();
 

@@ -155,4 +155,37 @@ public class CartItemDAOImpl implements CartItemDAO {
 
         return false;
     }
+
+    @Override
+    public List<CartItem> getAllItems(User user) {
+        try (Connection conn = ConnectionUtil.getConnection()){
+            List<CartItem> allItems = new ArrayList<>();
+
+            String sql = "SELECT * FROM cartitems WHERE user_id = ?;";
+
+            PreparedStatement ps = conn.prepareStatement(sql);
+
+            ps.setInt(1, user.getUserid());
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()){
+                CartItem item = new CartItem();
+                item.setCartItemId(rs.getInt("cart_item_id"));
+                item.setProductId(rs.getInt("product_id"));
+                item.setUserId(rs.getInt("user_id"));
+                item.setQuantity(rs.getInt("quantity"));
+
+                allItems.add(item);
+            }
+
+            return allItems;
+
+        } catch (SQLException e) {
+            System.out.println("Unable to get list of items");
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 }

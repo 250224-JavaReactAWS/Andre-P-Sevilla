@@ -1,21 +1,33 @@
 package com.revature.services;
 
+import com.revature.models.Order;
 import com.revature.models.User;
+import com.revature.repos.OrderDAO;
 import com.revature.repos.UserDAO;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class UserService {
 
     private UserDAO userDAO;
+    private OrderDAO orderDAO;
 
-    public UserService(UserDAO userDAO){
+    public UserService(UserDAO userDAO, OrderDAO orderDAO){
         this.userDAO = userDAO;
+        this.orderDAO = orderDAO;
     }
 
     public boolean validateEmail(String email){
 
-        return email.length() >= 8;
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@" +
+                "(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+
+        // Compile the regex
+        Pattern p = Pattern.compile(emailRegex);
+
+        // Check if email matches the pattern
+        return email != null && p.matcher(email).matches();
     }
 
     public boolean isEmailAvailable(String email){
@@ -38,10 +50,8 @@ public class UserService {
         return correcteLenght && hasLowercase && hasUppercase;
     }
 
-    public User registerUser(String firstname, String lastname, String email, String password){
-        User userToBeSaved = new User(firstname, lastname, email, password);
-
-        return userDAO.createUser(userToBeSaved);
+    public User registerUser(User user){
+        return userDAO.createUser(user);
     }
 
     public User loginUser(String email, String password){
@@ -54,11 +64,19 @@ public class UserService {
         return null;
     }
 
-    public User updateUser(String firstname, String lastname, String email, String password){
-        User returnedUser = new User(firstname, lastname, email, password);
-        if ( returnedUser == userDAO.getUserByEmail(email)){
-            return userDAO.updateUser(returnedUser);
+    public User updateUser(User user){
+        //User returnedUser = new User(firstname, lastname, email, password);
+        /*
+        if (user == userDAO.getUserByEmail(user.getEmail())){
+            return userDAO.updateUser(user);
         }else return null;
+        */
+        return userDAO.updateUser(user);
+    }
+
+    public List<Order> viewOrderHistory(int userId){
+
+        return orderDAO.viewByUserId(userId);
     }
 
 }

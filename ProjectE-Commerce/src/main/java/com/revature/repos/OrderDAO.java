@@ -2,6 +2,8 @@ package com.revature.repos;
 
 import com.revature.models.CartItem;
 import com.revature.models.Order;
+import com.revature.models.Status;
+import com.revature.models.User;
 
 import java.util.List;
 
@@ -15,11 +17,13 @@ public interface OrderDAO {
     *
     * */
 
-    Order createOrder(CartItem item);
+    Order createOrder(User user, float totalprice);
 
     Order updateStatus(Order order);
 
-    List<Order> viewByStatus(Order oder);
+    List<Order> viewByStatus(Status status);
 
-    List<Order> viewAll(Order order);
+    List<Order> viewAll();
+
+    List<Order> viewByUserId(int userId);
 }

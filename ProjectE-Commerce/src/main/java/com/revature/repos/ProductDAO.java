@@ -23,4 +23,6 @@ public interface ProductDAO {
     Product updateProduct(Product product);
 
     boolean deleteProductByName(String name);
+
+    Product getProductByID(int id);
 }

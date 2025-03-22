@@ -18,21 +18,17 @@ public class ProductService {
         return false;
     }
 
-    public Product createProduct(String name, String description, float price, int stock){
-
-        Product returnProduct = new Product(name, description, price, stock);
-
-        return productDAO.createProduct(returnProduct);
+    public Product createProduct(Product product){
+        return productDAO.createProduct(product);
     }
 
-    public Product updateProduct(String name, String description, float price, int stock){
-        Product returnProduct = new Product(name, description, price, stock);
-
-        if (returnProduct == productDAO.getProductByName(name)){
-            return productDAO.updateProduct(returnProduct);
+    public Product updateProduct(Product product){
+        return  productDAO.updateProduct(product);
+        /*if (product == productDAO.getProductByName(product.getName())){
+            return productDAO.updateProduct(product);
         }else {
             return null;
-        }
+        }*/
     }
 
     public Product getProductDetail(String name){

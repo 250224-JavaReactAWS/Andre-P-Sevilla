@@ -22,6 +22,10 @@ public class Order {
         this.status = status;
     }
 
+    public Order() {
+
+    }
+
     public int getOrderId() {
         return orderId;
     }
@@ -40,5 +44,25 @@ public class Order {
 
     public String getTimestamp() {
         return timestamp;
+    }
+
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public void setTotalPrice(float totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
     }
 }
