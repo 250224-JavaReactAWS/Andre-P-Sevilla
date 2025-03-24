@@ -54,6 +54,7 @@ public class OrderItemDAOImpl implements OrderItemDAO{
         } catch (SQLException e) {
             System.out.println("Could not create OrderItem");
             e.printStackTrace();
+            return null;
         }
 
         return null;

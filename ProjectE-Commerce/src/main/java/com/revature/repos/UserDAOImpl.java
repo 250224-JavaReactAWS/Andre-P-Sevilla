@@ -43,6 +43,7 @@ public class UserDAOImpl implements UserDAO {
         } catch (SQLException e) {
             System.out.println("could not create user");
             e.printStackTrace();
+            return null;
         }
 
         return null;
@@ -71,10 +72,9 @@ public class UserDAOImpl implements UserDAO {
         } catch (SQLException e) {
             System.out.println("Could not update user.");
             e.printStackTrace();
+            return null;
         }
 
-
-        return null;
     }
 
     @Override
@@ -104,6 +104,7 @@ public class UserDAOImpl implements UserDAO {
         } catch (SQLException e) {
             System.out.println("Could not retrieve user by email");
             e.printStackTrace();
+            return null;
         }
 
         return null;

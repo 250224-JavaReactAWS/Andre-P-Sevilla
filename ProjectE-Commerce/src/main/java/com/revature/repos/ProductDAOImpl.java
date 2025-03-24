@@ -36,7 +36,8 @@ public class ProductDAOImpl implements ProductDAO {
             return allProducts;
 
         } catch (SQLException ex) {
-            throw new RuntimeException(ex);
+            ex.printStackTrace();
+            return null;
         }
 
 }
@@ -69,6 +70,7 @@ public class ProductDAOImpl implements ProductDAO {
             } catch (SQLException e) {
                 System.out.println("Could not create product.");
                 e.printStackTrace();
+                return null;
             }
 
 
@@ -103,6 +105,7 @@ public class ProductDAOImpl implements ProductDAO {
         } catch (SQLException e) {
             System.out.println("Could found Product in database.");
             e.printStackTrace();
+            return null;
         }
 
 
@@ -135,6 +138,7 @@ public class ProductDAOImpl implements ProductDAO {
         } catch (SQLException e) {
             System.out.println("Could not get product by id");
             e.printStackTrace();
+            return null;
         }
 
         return null;
@@ -162,8 +166,9 @@ public class ProductDAOImpl implements ProductDAO {
 
         } catch (SQLException e) {
             System.out.println("Unable to update product.");
+            e.printStackTrace();
+            return null;
         }
-        return null;
     }
 
     @Override
@@ -188,7 +193,8 @@ public class ProductDAOImpl implements ProductDAO {
 
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            return false;
         }
     }
 }

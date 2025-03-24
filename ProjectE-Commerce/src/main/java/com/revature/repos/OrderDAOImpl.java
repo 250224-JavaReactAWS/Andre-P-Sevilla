@@ -39,8 +39,8 @@ public class OrderDAOImpl implements OrderDAO {
         } catch (SQLException e) {
             System.out.println("Could not create product.");
             e.printStackTrace();
+            return null;
         }
-
         return null;
     }
 
@@ -63,7 +63,8 @@ public class OrderDAOImpl implements OrderDAO {
 
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+           e.printStackTrace();
+            return null;
         }
 
 
@@ -131,9 +132,9 @@ public class OrderDAOImpl implements OrderDAO {
         } catch (SQLException e) {
             System.out.println("Unable to get Orders by Status");
             e.printStackTrace();
+            return null;
         }
 
-        return null;
     }
 
     @Override
@@ -165,8 +166,8 @@ public class OrderDAOImpl implements OrderDAO {
         } catch (SQLException e) {
             System.out.println("Unable to get Orders by User Id");
             e.printStackTrace();
+            return null;
         }
 
-        return null;
     }
 }

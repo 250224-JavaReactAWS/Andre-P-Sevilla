@@ -68,6 +68,7 @@ public class CartItemDAOImpl implements CartItemDAO {
         } catch (SQLException e) {
             System.out.println("Unable to add product to the cart");
             e.printStackTrace();
+            return null;
         }
 
         return null;
@@ -97,9 +98,8 @@ public class CartItemDAOImpl implements CartItemDAO {
         } catch (SQLException e) {
             System.out.println("Could not Delete Item");
             e.printStackTrace();
+            return false;
         }
-
-        return false;
     }
 
     @Override
@@ -124,9 +124,9 @@ public class CartItemDAOImpl implements CartItemDAO {
     } catch (SQLException e) {
         System.out.println("Unable to update item.");
         e.printStackTrace();
+            return null;
     }
 
-        return null;
 }
 
     @Override
@@ -147,6 +147,7 @@ public class CartItemDAOImpl implements CartItemDAO {
 
         } catch (SQLException e) {
             System.out.println("Unable to delete items.");
+            return false;
         }
 
         return false;
