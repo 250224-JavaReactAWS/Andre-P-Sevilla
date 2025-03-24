@@ -100,6 +100,5 @@ public class UserController {
         ctx.status(200);
         ctx.json(userService.viewOrderHistory(ctx.sessionAttribute("userid")));
     }
-    //TODO view order history
 
 }

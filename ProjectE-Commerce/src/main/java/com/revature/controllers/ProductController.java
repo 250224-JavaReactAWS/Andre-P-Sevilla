@@ -21,6 +21,15 @@ public class ProductController {
 
     public void detailProductHandler(Context ctx){
         ctx.status(200);
+
+        if (ctx.pathParam("product") == null){
+
+            ctx.status(401);
+            ctx.json(new ErrorMessage("Please add a valid product."));
+            return;
+
+        }
+
         ctx.json(productService.getProductDetail(ctx.pathParam("product")));
     }
 
@@ -31,6 +40,16 @@ public class ProductController {
             ctx.status(403);
             ctx.json(new ErrorMessage("You are not allowed to add a product."));
             return;
+        }
+
+        if (product.getPrice() < 0){
+            ctx.status(401);
+            ctx.json(new ErrorMessage("The price can not be less than 0"));
+        }
+
+        if (product.getStock() < 0){
+            ctx.status(401);
+            ctx.json(new ErrorMessage("The stock can not be less than 0"));
         }
 
         ctx.status(200);
@@ -44,6 +63,16 @@ public class ProductController {
             ctx.status(403);
             ctx.json(new ErrorMessage("You are not allowed to update this product."));
             return;
+        }
+
+        if (product.getPrice() < 0){
+            ctx.status(401);
+            ctx.json(new ErrorMessage("The price can not be less than 0"));
+        }
+
+        if (product.getStock() < 0){
+            ctx.status(401);
+            ctx.json(new ErrorMessage("The stock can not be less than 0"));
         }
 
         //System.out.println(product.getName() + " " + product.getDescription() + " " + product.getPrice() + " " +product.getStock());

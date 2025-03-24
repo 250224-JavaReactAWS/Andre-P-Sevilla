@@ -39,6 +39,18 @@ public class CartController {
             return;
         }
 
+        if (Integer.parseInt(ctx.pathParam("productId")) <= 0){
+            ctx.status(401);
+            ctx.json(new ErrorMessage("Please add a valid productId."));
+            return;
+        }
+
+        if (Integer.parseInt(ctx.pathParam("quantity")) <= 0){
+            ctx.status(401);
+            ctx.json(new ErrorMessage("Please add a valid quantity."));
+            return;
+        }
+
         //Todo check if the item is already in the cart, if it is, just update the quantity of the item
         ctx.status(200);
         ctx.json(buyoutService.addCartItem(ctx.sessionAttribute("userid"), Integer.parseInt(ctx.pathParam("productId")), Integer.parseInt(ctx.pathParam("quantity"))));
@@ -53,6 +65,12 @@ public class CartController {
             return;
         }
 
+        if (Integer.parseInt(ctx.pathParam("productId")) <= 0){
+            ctx.status(401);
+            ctx.json(new ErrorMessage("Please add a valid productId."));
+            return;
+        }
+
         ctx.status(200);
         ctx.json(buyoutService.removeCartItem(ctx.sessionAttribute("userid"), Integer.parseInt(ctx.pathParam("productId"))));
 
@@ -63,6 +81,18 @@ public class CartController {
         if (ctx.sessionAttribute("userid") == null){
             ctx.status(401);
             ctx.json(new ErrorMessage("Please login in to continue updating items from your cart."));
+            return;
+        }
+
+        if (Integer.parseInt(ctx.pathParam("productId")) <= 0){
+            ctx.status(401);
+            ctx.json(new ErrorMessage("Please add a valid productId."));
+            return;
+        }
+
+        if (Integer.parseInt(ctx.pathParam("quantity")) <= 0){
+            ctx.status(401);
+            ctx.json(new ErrorMessage("Please add a valid quantity."));
             return;
         }
 
