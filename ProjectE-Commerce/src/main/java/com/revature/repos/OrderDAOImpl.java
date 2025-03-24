@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OrderDAOImpl implements OrderDAO {
+
+
     @Override
     public Order createOrder(int userId, float totalprice) {
         try (Connection conn = ConnectionUtil.getConnection()){
@@ -95,9 +97,9 @@ public class OrderDAOImpl implements OrderDAO {
         } catch (SQLException e) {
             System.out.println("Unable to get list of orders");
             e.printStackTrace();
+            return null;
         }
 
-        return null;
     }
 
     @Override
@@ -147,7 +149,7 @@ public class OrderDAOImpl implements OrderDAO {
 
             ResultSet rs = ps.executeQuery();
 
-            if (rs.next()){
+            while (rs.next()){
                 Order order = new Order();
                 order.setOrderId(rs.getInt("order_id"));
                 order.setUserId(rs.getInt("user_id"));

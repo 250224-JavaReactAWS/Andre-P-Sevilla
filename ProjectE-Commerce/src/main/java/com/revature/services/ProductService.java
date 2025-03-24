@@ -14,9 +14,9 @@ public class ProductService {
     }
 
     //todo create this check
-    public boolean doProductExist(){
+    /*public boolean doProductExist(){
         return false;
-    }
+    }*/
 
     public Product createProduct(Product product){
         return productDAO.createProduct(product);

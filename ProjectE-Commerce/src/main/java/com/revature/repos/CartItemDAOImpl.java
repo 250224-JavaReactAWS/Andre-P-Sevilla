@@ -129,59 +129,59 @@ public class CartItemDAOImpl implements CartItemDAO {
         return null;
 }
 
-@Override
-public boolean deleteCart(int userId) {
-    try (Connection conn = ConnectionUtil.getConnection()){
+    @Override
+    public boolean deleteCart(int userId) {
+        try (Connection conn = ConnectionUtil.getConnection()){
 
-        String sql = "DELETE FROM cartitems WHERE user_id = ?;";
+            String sql = "DELETE FROM cartitems WHERE user_id = ?;";
 
-        PreparedStatement ps = conn.prepareStatement(sql);
+            PreparedStatement ps = conn.prepareStatement(sql);
 
-        ps.setInt(1,userId);
+            ps.setInt(1,userId);
 
-        int rows = ps.executeUpdate();
+            int rows = ps.executeUpdate();
 
-        if (rows > 0){
-            System.out.println("Deleted items from cart");
-        }else return false;
+            if (rows > 0){
+                System.out.println("Deleted items from cart");
+            }else return false;
 
-    } catch (SQLException e) {
-        System.out.println("Unable to delete items.");
-    }
-
-    return false;
-}
-
-@Override
-public List<CartItem> getAllItems(int userId) {
-    try (Connection conn = ConnectionUtil.getConnection()){
-        List<CartItem> allItems = new ArrayList<>();
-
-        String sql = "SELECT * FROM cartitems WHERE user_id = ?;";
-
-        PreparedStatement ps = conn.prepareStatement(sql);
-
-        ps.setInt(1, userId);
-
-        ResultSet rs = ps.executeQuery();
-
-        while (rs.next()){
-            CartItem item = new CartItem();
-            item.setCartItemId(rs.getInt("cart_item_id"));
-            item.setProductId(rs.getInt("product_id"));
-            item.setUserId(rs.getInt("user_id"));
-            item.setQuantity(rs.getInt("quantity"));
-
-            allItems.add(item);
+        } catch (SQLException e) {
+            System.out.println("Unable to delete items.");
         }
 
-        return allItems;
-
-    } catch (SQLException e) {
-        System.out.println("Unable to get list of items");
-        e.printStackTrace();
+        return false;
     }
 
-    return null;
-}
+    @Override
+    public List<CartItem> getAllItems(int userId) {
+        try (Connection conn = ConnectionUtil.getConnection()){
+            List<CartItem> allItems = new ArrayList<>();
+
+            String sql = "SELECT * FROM cartitems WHERE user_id = ?;";
+
+            PreparedStatement ps = conn.prepareStatement(sql);
+
+            ps.setInt(1, userId);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()){
+                CartItem item = new CartItem();
+                item.setCartItemId(rs.getInt("cart_item_id"));
+                item.setProductId(rs.getInt("product_id"));
+                item.setUserId(rs.getInt("user_id"));
+                item.setQuantity(rs.getInt("quantity"));
+
+                allItems.add(item);
+            }
+
+            return allItems;
+
+        } catch (SQLException e) {
+            System.out.println("Unable to get list of items");
+            e.printStackTrace();
+            return null;
+        }
+
+    }
 }

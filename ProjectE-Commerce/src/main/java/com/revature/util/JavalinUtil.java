@@ -59,7 +59,6 @@ public class JavalinUtil {
                 });
             });
                 })
-                //.post("/users/register", userController::registerUserHandler)
 
 
                 .start(port);

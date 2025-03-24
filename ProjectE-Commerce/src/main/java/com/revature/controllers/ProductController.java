@@ -63,6 +63,9 @@ public class ProductController {
         if (productService.deleteProduct(product.getName())){
             ctx.status(200);
             ctx.json("Deleted product: " +product.getName());
+        }else {
+            ctx.status(200);
+            ctx.json("There is no product with that name.");
         }
 
     }

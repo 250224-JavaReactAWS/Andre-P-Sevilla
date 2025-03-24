@@ -44,28 +44,32 @@ public class BuyoutService {
         return cartitemDAO.getAllItems(userId);
     }
 
-    public void buyoutCart(int userId){
+    public boolean buyoutCart(int userId){
         List<CartItem> listItems = cartitemDAO.getAllItems(userId);
         float totalprice = 0;
 
-        //First we get the total price directly from the CartItems, we run the ProductDAO to get the product price and multiply by the quantity in the cart
-        for (CartItem x: listItems){
-            Product p = productDAO.getProductByID(x.getProductId());
-            totalprice += p.getPrice() * x.getQuantity();
-        }
-        //Once we have the total, creation of the Order
-        Order order = orderDAO.createOrder(userId, totalprice);
+        try {//First we get the total price directly from the CartItems, we run the ProductDAO to get the product price and multiply by the quantity in the cart
+            for (CartItem x : listItems) {
+                Product p = productDAO.getProductByID(x.getProductId());
+                totalprice += p.getPrice() * x.getQuantity();
+            }
+            //Once we have the total, creation of the Order
+            Order order = orderDAO.createOrder(userId, totalprice);
 
-        //With the Order id, we pass all the items from the cart to the orderItems table.
-        for (CartItem x: listItems){
-            OrderItem oI = orderItemDAO.createOrderItem(x, order);
-            //For testing
-            System.out.println("Created order item: " + oI.getOrderItemId());
+            //With the Order id, we pass all the items from the cart to the orderItems table.
+            for (CartItem x : listItems) {
+                OrderItem oI = orderItemDAO.createOrderItem(x, order);
+                //For testing
+                System.out.println("Created order item: " + oI.getOrderItemId());
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
         }
-
         //We need to clear the cart as the process has ended
         cleanCart(userId);
         System.out.println("Thank you for buying with us.");
+        return true;
     }
 
     // ----------------- Order Service ------------------
